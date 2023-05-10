@@ -1,0 +1,12 @@
+{
+   "BMW F90": {
+      "color": "Gray",
+      "price": 70000,
+      "discount": null
+   },
+   "BMW E60": {
+      "color": "Red",
+      "price": 50000,
+      "discount": 30
+   }
+}
