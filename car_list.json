@@ -1,12 +1,22 @@
 {
    "BMW F90": {
-      "color": "Gray",
-      "price": 70000,
-      "discount": null
+      "color": "Grey",
+      "price": 90000,
+      "discount": 10
    },
    "BMW E60": {
-      "color": "Red",
-      "price": 50000,
-      "discount": 30
+      "color": "Blue",
+      "price": 15000,
+      "discount": 25
+   },
+   "Ford Fusion": {
+      "color": "Black",
+      "price": 12000,
+      "discount": null
+   },
+   "E220": {
+      "color": "Black",
+      "price": 5000,
+      "discount": null
    }
 }
