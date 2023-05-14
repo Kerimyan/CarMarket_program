@@ -6,3 +6,4 @@ set_discout = 'Discount set...'
 no_discount = 'Discount not available.....'
 seller_car_not_exists="{name} {surname} doesn't have that car..."
 car_sold="{car} is sold..."
+car_not_sale="The car is not for sale..."

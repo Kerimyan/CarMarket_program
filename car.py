@@ -1,5 +1,5 @@
 class Car:
-    def __init__(self, model, color, price, discount=None):
+    def __init__(self, model, color, price, discount=None, seller=None):
         if type(model) is str and type(color) is str and type(price) is int:
             self._model = model
             self._color = color
@@ -7,6 +7,7 @@ class Car:
         else:
             raise ValueError
         self._discount = discount
+        self._seller = seller
 
     @property
     def model(self):
@@ -28,5 +29,16 @@ class Car:
     def discount(self, value):
         if isinstance(value, int):
             self._discount = value
+        else:
+            raise ValueError
+
+    @property
+    def seller(self):
+        return self._seller
+
+    @seller.setter
+    def seller(self, seller_name):
+        if isinstance(seller_name, str):
+            self._seller = seller_name
         else:
             raise ValueError
