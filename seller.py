@@ -1,7 +1,6 @@
 import messages
 import datetime
 from person import Person
-from database import DataBase
 
 
 class Seller(Person):
@@ -85,3 +84,7 @@ class Seller(Person):
         self.db.save(self.account, self.account_file)
         self.car_park.update(car)
         self.db.save(self.car_park, self.car_park_file)
+
+    def get_cars_from_carpark(self):
+        for car in self.car_park.values():
+            print(f"{car['model']} {car['color']}  | price-{car['price']}$")

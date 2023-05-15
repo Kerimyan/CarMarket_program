@@ -1,7 +1,4 @@
 from person import Person
-from car_market import CarMarket
-from database import DataBase
-from seller import Seller
 import messages
 
 

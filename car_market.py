@@ -1,38 +1,58 @@
-from database import DataBase
 import messages
-from car import Car
 from uuid import uuid4
-from seller import Seller
 
 
 class CarMarket:
-    def __init__(self, database, config_json, seller):
+    def __init__(self, database, config_json, seller_class, buyer_class):
         self.db = database
-        self.SellerClass = seller
+        self.SellerClass = seller_class
+        self.BuyerClass = buyer_class
         conf = self.db.load(config_json)
         self.__cars_file = conf['car_list']
         self.__history_file = conf['payment_history']
+        self.__account_info_file = conf['account_info_file']
         self.car_list = self.db.load(self.__cars_file)
         self.__payment_history = self.db.load(self.__history_file)
 
-        """Creating sellers"""
-        self.__seler_info_file = conf['seller_info_file']
-        self.seller_list = []
-        self.seller_info = self.db.load(self.__seler_info_file)
-        if self.seller_info:
-            for info in self.seller_info:
+        self.account_info = self.db.load(self.__account_info_file)
+
+        """Creating seller accounts"""
+        self.seller_list = {}
+        seller_info = self.account_info['seller_info']
+        if seller_info:
+            for info in seller_info:
                 self.create_seller(**info)
+
+        """Creating buyer accounts"""
+        self.buyer_list = {}
+        buyer_info = self.account_info['buyer_info']
+        if buyer_info:
+            for info in buyer_info:
+                self.create_buyer(**info)
 
     def create_seller(self, name, surname, city, available_cars_list):
         seller = self.SellerClass(name, surname, city, self.db, self, available_cars_list)
-        self.seller_list.append(seller)
+        name_surname = name + ' ' + surname
+        self.seller_list[name_surname] = seller
         info = {'name': name,
                 'surname': surname,
                 'city': city,
                 'available_cars_list': available_cars_list}
-        if info not in self.seller_info:
-            self.seller_info.append(info)
-            self.db.save(self.seller_info, self.__seler_info_file)
+        if info not in self.account_info['seller_info']:
+            self.account_info['seller_info'].append(info)
+            self.db.save(self.account_info, self.__account_info_file)
+
+    def create_buyer(self, name, surname, city, money):
+        buyer = self.BuyerClass(name, surname, city, money, self, self.db)
+        name_surname = name + ' ' + surname
+        self.buyer_list[name_surname] = buyer
+        info = {'name': name,
+                'surname': surname,
+                'city': city,
+                'money': money}
+        if info not in self.account_info['buyer_info']:
+            self.account_info['buyer_info'].append(info)
+            self.db.save(self.account_info, self.__account_info_file)
 
     def add_car(self, car_ob):
         car_id = str(uuid4())
@@ -54,7 +74,7 @@ class CarMarket:
             return None
 
     def __search_seller(self, car_model):
-        for seller in self.seller_list:
+        for seller in self.seller_list.values():
             for car in seller.available_cars_list:
                 if car == car_model:
                     return seller

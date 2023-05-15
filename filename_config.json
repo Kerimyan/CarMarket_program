@@ -1,5 +1,5 @@
 {
   "car_list" : "car_list.json",
   "payment_history": "pay_history.json",
-  "seller_info_file": "seller_info_file.json"
+  "account_info_file": "account_info_file.json"
 }
